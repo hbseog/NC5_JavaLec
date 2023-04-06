@@ -22,7 +22,7 @@ public class _02_ {
         
         System.out.print("검색할 업적을 입력하세요: ");
         String ac = sc.nextLine();
-        Stream<HistoricPerson> hStream = hList.stream().filter(a-> a.getPersonInfo(ac));
+        Stream<HistoricPerson> hStream = hList.stream().map(a->a.getPersonInfo(ac)).filter(z->z.name!=null);
         hStream.forEach(b-> System.out.println(b.toString()));
 
 
@@ -38,7 +38,7 @@ public class _02_ {
 
         System.out.print("검색할 나라를 입력하세요: ");
         String ac2 = sc.nextLine();
-        Stream<HistoricPerson> hStream3 = hList.stream().filter(a-> a.getSameCountryPerson(ac2));
+        Stream<HistoricPerson> hStream3 = hList.stream().map(a->a.getSameCountryPerson(ac2)).filter(z->z.name!=null);
         hStream3.forEach(b-> System.out.println(b.toString()));
 
 

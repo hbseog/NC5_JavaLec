@@ -42,10 +42,12 @@ public class HistoricPerson {
                 ", 나라='" + country + '\'';
     }
 
-    public boolean getPersonInfo(String achievement){
-        return this.achievement.equals(achievement);
+    public HistoricPerson getPersonInfo(String achievement){
+        if(this.achievement.equals(achievement)) return new HistoricPerson(this.name,this.achievement,this.country);
+        else return new HistoricPerson(null,null,null);
     }
-    public boolean getSameCountryPerson(String country){
-        return this.country.equals(country);
+    public HistoricPerson getSameCountryPerson(String country){
+        if(this.country.equals(country)) return new HistoricPerson(this.name,this.achievement,this.country);
+        else return new HistoricPerson(null,null,null);
     }
 }
