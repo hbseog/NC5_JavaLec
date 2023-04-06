@@ -41,7 +41,7 @@ public class _02_ {
         Stream<HistoricPerson> hStream3 = hList.stream().map(a->a.getSameCountryPerson(ac2)).filter(z->z.name!=null);
         hStream3.forEach(b-> System.out.println(b.toString()));
 
-//찐막
+
         System.out.println("-------------------\n");
 
         Stream<HistoricPerson> hStream4 = hList.stream().filter(a-> a.getName().length()>=4);
