@@ -44,7 +44,6 @@ public class _02_ {
 
         System.out.println("-------------------\n");
 
-//잔디깔기용 주석
         Stream<HistoricPerson> hStream4 = hList.stream().filter(a-> a.getName().length()>=4);
         hStream4.forEach(b-> System.out.println("성이 두 글자인 인물: "+b.toString()));
     }
