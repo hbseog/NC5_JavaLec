@@ -1,12 +1,9 @@
 package homework_0316;
 
-import java.util.Random;
-
 public class _homework_middle {
 
 	public static void main(String[] args) {
 		int b=0;
-		// TODO Auto-generated method stub
 		/*
 		int[] num = new int[20];
 		int[] num2 = new int[11];

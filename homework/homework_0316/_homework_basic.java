@@ -1,12 +1,8 @@
 package homework_0316;
 
-import java.util.Random;
-import java.util.Scanner;
-
 public class _homework_basic {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		/*
 		int[] arr = new int[10];
 		int num = 0, result=arr.length-1;

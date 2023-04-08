@@ -43,11 +43,11 @@ public class HistoricPerson {
     }
 
     public HistoricPerson getPersonInfo(String achievement){
-        if(this.achievement.equals(achievement)) return new HistoricPerson(this.name,this.achievement,this.country);
+        if(this.achievement.equals(achievement)) return this;
         else return new HistoricPerson(null,null,null);
     }
     public HistoricPerson getSameCountryPerson(String country){
-        if(this.country.equals(country)) return new HistoricPerson(this.name,this.achievement,this.country);
+        if(this.country.equals(country)) return this;
         else return new HistoricPerson(null,null,null);
     }
 }

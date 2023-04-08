@@ -3,6 +3,10 @@ package homework_0316;
 import java.util.Scanner;
 
 public class PhoneInfo {
+	public static void main(String[] args) {
+		PhoneInfo a = new PhoneInfo();
+		a.start();
+	}
 	// 이름 100개와 전화번호 100개를 담을 수 있는 배열 2개(String)
 	String[] name = new String[100];
 	String[] phoneNum = new String[100];
