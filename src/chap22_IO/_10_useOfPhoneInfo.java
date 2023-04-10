@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class _10_useOfPhoneInfo {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		PhoneInfo phoneInfo = new PhoneInfo();
 		
 		Scanner sc = new Scanner(System.in);
@@ -70,7 +69,6 @@ public class _10_useOfPhoneInfo {
 				break;
 			}
 		}
-		
 		sc.close();
 	}
 
