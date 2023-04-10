@@ -1,5 +1,6 @@
 package homework_0316;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class PhoneInfo {
@@ -21,7 +22,8 @@ public class PhoneInfo {
 			System.out.println("1. 정보입력");
 			System.out.println("2. 모든 정보 출력");
 			System.out.println("3. 인덱스로 정보 검색");
-			System.out.println("4. 종료");
+			System.out.println("4. 입력 정보 저장");
+			System.out.println("5. 종료");
 			int chose = sc.nextInt();
 			switch (chose) {
 			case 1:
@@ -35,8 +37,9 @@ public class PhoneInfo {
 				break;
 			case 4:
 				isReStart = false;
-				System.out.println("종료합니다.");
+				System.out.println("저장합니다.");
 				sc.close();
+				write();
 				break;
 			default:
 				System.out.println("1~4 사이의 번호를 입력해주세요.");
@@ -86,5 +89,27 @@ public class PhoneInfo {
 				System.out.println("1~100 사이의 번호를 입력해주세요");
 		}
 	}
-	// ex) 이름: 홍길동, 전화번호: 11111111111
+	public void write() {
+		try {
+			OutputStream os1 = new FileOutputStream("C:/lecture/name.txt");
+			OutputStream os2 = new FileOutputStream("C:/lecture/phone.txt");
+			//OutputStreamWriter를 이용해서 바이트스트림 -> 문자스트림으로 변환
+			Writer writer1 = new OutputStreamWriter(os1, "UTF-8");
+			Writer writer2 = new OutputStreamWriter(os2, "UTF-8");
+			for (int j = 0; j < i; j++) {
+				writer1.write(j + "번: " + name[j] + "\n");
+				writer2.write(j + "번: " + phoneNum[j] + "\n");
+			}
+			writer1.flush();
+			writer2.flush();
+			writer1.close();
+			writer2.close();
+		} catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException ioe) {
+			System.out.println(ioe.getMessage());
+		} catch (Exception ee) {
+			System.out.println(ee.getMessage());
+		}
+	}
 }
