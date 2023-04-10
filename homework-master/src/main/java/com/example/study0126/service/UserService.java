@@ -84,9 +84,7 @@ public class UserService {
     public void deleteById(Long id) {
         userRepository
                 .findById(id)
-                .ifPresentOrElse(
-                        userRepository::delete
-                        , () -> {throw new UserNotExist("10002", "User not found");}
+                .ifPresentOrElse(userRepository::delete, () -> {throw new UserNotExist("10002", "User not found");}
                 );
     }
 
