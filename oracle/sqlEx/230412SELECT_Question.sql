@@ -1,136 +1,3 @@
--- 11. 여러개의 데이터를 비교해주는 IN절
--- 화학과나 물리학과 학생이면서 1,2,3학년인 학생만 조회
-SELECT * FROM STUDENT
-WHERE MAJOR IN ('화학','물리')
-AND SYEAR IN (1,2,3);
-
--- 업무가 개발, 경영이면서 보너스가 700이상인 직원 목록 조회
-SELECT * FROM EMP
-WHERE JOB IN ('개발', '경영')
-AND SAL >=700;
-
--- 과목의 PNO를 사용해서 PROFESSOR
-SELECT A.*, B.PNAME
-FROM COURSE A
-    LEFT OUTER JOIN PROFESSOR B
-        on A.PNO = B.PNO;
-
-CREATE TABLE BOARD_A(
-BOARD_NO NUMBER, BOARD_TITLE VARCHAR(50)
-);
-
-CREATE TABLE BOARD_B(
-BOARD_NO NUMBER, FILE_NM VARCHAR(50)
-);
-
-INSERT INTO BOARD_A VALUES (4,'AA');
-
-SELECT * FROM BOARD_A;
-
-SELECT B.*,A.BOARD_TITLE
-FROM BOARD_B B
-LEFT OUTER JOIN BOARD_A A
-on B.BOARD_NO = A.BOARD_NO;
-
--- INNER JOUN
--- SCORE테이블의 모든 데이터와 STUDENT데이블 학생이름 조회
-SELECT SC.*, ST.SNAME
-FROM SCORE SC
-INNER JOIN STUDENT ST
-ON SC.SNO = ST.SNO
-
--- 모든 사원정보와 부서명을 한 번에 조회
--- ANSI 표준
-SELECT EM.*, DE.DNAME
-FROM EMP EM INNER JOIN DEPT DE
-ON EM.DNO = DE.DNO
-
--- 다른 형태의 JOIN
-SELECT EM.*, DE.DNAME
-FROM EMP EM, DEPT DE
-WHERE EM.DNO = DE.DNO
-
--- 비등가 JOIN
-SELECT SC.*, GR.GRADE
-FROM SCORE SC
-INNER JOIN SCGRADE GR
-ON SC.RESULT BETWEEN GR.LOSCORE AND GR.HISCORE
-
--- 사원의 모든 정보와 해당 사원에 대한 급여등급 정보 조회(>,<,<=,>=,BETWEEN ...)
-SELECT EM.*, GR.GRADE
-FROM EMP EM
-INNER JOIN SALGRADE GR
-ON EM.SAL BETWEEN GR.LOSAL AND GR.HISAL
-
--- CROSSJOIN: 조인 조건을 명시하지 않으면 의미없는 데이터가 조회된다.
-SELECT
-    A.ENO,
-    A.ENAME,
-    A.DNO,
-    B.DNAME
-FROM
-    EMP A,
-    DEPT B;
-
--- 셀프조인
--- FROM절의 테이블과 조인되는 테이블이 같을 때
--- 사원의 사수의 이름을 조회
-SELECT A.ENO, A.ENAME, A.MGR, B.ENAME, B.ENO
-FROM EMP A
-JOIN EMP B
-ON A.MGR = B.ENO
-
--- 3. OUTER JOIN
--- 사원의 사수의 이름을 조회하는데 사수가 존재하지 않는 사원들도 모두 조회
-SELECT A.ENO, A.ENAME, A.MGR, B.ENAME, B.ENO
-FROM EMP A
-LEFT JOIN EMP B
-ON A.MGR = B.ENO
-
--- 과목들의 정보를 조회, 교수의 이름과 같이 조회(담당교수가 없는 과목도 조회)
-SELECT A.*,B.PNAME
-FROM COURSE A
-LEFT JOIN PROFESSOR B
-ON A.PNO = B.PNO;
-
-SELECT A.*,B.PNAME
-FROM COURSE A,PROFESSOR B
-WHERE A.PNO = B.PNO(+);
-
--- 다중 조인
--- 사원의 모든 정보 조회, 급여등급과 부서명이 같이 조회되도록
-SELECT E.ENO, E.ENAME, E.MGR, E.SAL, S.GRADE, E.DNO, D.DNAME,
-       M.ENAME
-FROM EMP E
-JOIN SALGRADE S
-ON E.SAL BETWEEN S.LOSAL AND S.HISAL
-JOIN DEPT D
-ON E.DNO = D.DNO
-LEFT JOIN EMP M
-ON E.MGR = M.ENO;
-
--- 기말고사 성적을 조회-> 과목이름, 담당교수 이름까지 조회(과목번호 순서 정렬)
-SELECT S.SNO AS 학번,
-       T.SNAME AS 이름,
-       C.CNAME AS 과목,
-       P.PNAME AS 교수,
-       S.RESULT AS 점수,
-       G.GRADE AS 등급
-FROM SCORE S
-JOIN COURSE C
-ON S.CNO = C.CNO
-JOIN PROFESSOR P
-ON P.PNO = C.PNO
-JOIN STUDENT T
-ON T.SNO = S.SNO
-JOIN SCGRADE G
-ON S.RESULT BETWEEN G.LOSCORE AND G.HISCORE
-ORDER BY S.RESULT DESC ;
-
-
-----------------------------------------
-
-
 --1) 평점이 3.0에서 4.0사이의 학생을 검색하라(between and)
 SELECT S.*
 FROM STUDENT S
@@ -253,27 +120,60 @@ ON S.SNAME = ST.SNAME AND S.SNO != ST.SNO
 ORDER BY S.SNO;
 
 --2) 전체 교수 명단과 교수가 담당하는 과목의 이름을 학과 순으로 검색한다
+SELECT P.*, C.CNAME
+FROM PROFESSOR P
+JOIN COURSE C
+ON P.PNO = C.PNO
+ORDER BY P.SECTION
 
-
---3) 이번 학기 등록된 모든 과목과 담당 교수의 학점 순으로 검색한다
-
-
+--3) 이번 학기 등록된 모든 과목과 담당 교수의 학과 순으로 검색한다
+SELECT C.*, P.PNAME,P.SECTION
+FROM COURSE C
+JOIN PROFESSOR P
+ON C.PNO = P.PNO
+ORDER BY P.SECTION;
 
 
 
 --1) 각 과목의 과목명과 담당 교수의 교수명을 검색하라
-
+SELECT C.CNAME, P.PNAME
+FROM COURSE C
+LEFT JOIN PROFESSOR P
+ON C.PNO = P.PNO;
 
 --2) 화학과 학생의 기말고사 성적을 모두 검색하라
-
+SELECT SC.RESULT, ST.MAJOR
+FROM SCORE SC
+JOIN STUDENT ST
+ON SC.SNO = ST.SNO AND ST.MAJOR = '화학';
 
 --3) 유기화학과목 수강생의 기말고사 시험점수를 검색하라
-
+SELECT SC.RESULT, C.CNAME
+FROM SCORE SC
+JOIN COURSE C
+ON SC.CNO = C.CNO AND C.CNAME = '유기화학';
 
 --4) 화학과 학생이 수강하는 과목을 담당하는 교수의 명단을 검색하라
+SELECT DISTINCT P.*, C.CNAME
+FROM PROFESSOR P
+JOIN COURSE C
+ON P.PNO = C.PNO
+JOIN SCORE SC
+ON SC.CNO = C.CNO
+JOIN STUDENT ST
+ON ST.SNO = SC.SNO AND ST.MAJOR = '화학';
 
 
 --5) 모든 교수의 명단과 담당 과목을 검색한다
-
+SELECT P.*, C.CNAME
+FROM PROFESSOR P
+LEFT JOIN COURSE C
+ON C.PNO = P.PNO
 
 --6) 모든 교수의 명단과 담당 과목을 검색한다(단 모든 과목도 같이 검색한다)
+SELECT P.*, C.CNAME
+FROM PROFESSOR P
+         FULL JOIN COURSE C
+                   ON C.PNO = P.PNO;
+SELECT *
+FROM PROFESSOR
