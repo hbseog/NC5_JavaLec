@@ -1,8 +1,11 @@
 package chap23_jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class _02_jdbc_insert {
+public class _03_jdbc_update {
     public static void main(String[] args) {
         final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 
@@ -27,24 +30,21 @@ public class _02_jdbc_insert {
             //pstmt = conn.createStatement();
             //insert sql쿼리문
             String sql =
-                    "INSERT INTO STUDENT " +
-                    "VALUES (?,?,?,?,?,?)";
+                    "update STUDENT set " +
+                            "AVR = ? " +
+                            "WHERE SNO = ?";
 
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,"8003");
-            pstmt.setString(2,"임꺽정");
-            pstmt.setString(3,"남");
-            pstmt.setInt(4,1);
-            pstmt.setString(5,"생물");
-            pstmt.setDouble(6,3.35);
+            pstmt.setDouble(1,1.45);
+            pstmt.setString(2,"8003");
 
             //insert, delete, update는 결과로 영향받은 행의 개수를 리턴
             int result = pstmt.executeUpdate();
-            if (result == 1){
-                System.out.println("저장되었습니다.");
+            if (result >= 1){
+                System.out.println("수정되었습니다.");
             }
-            else System.out.println("저장에 실패하였습니다.");
+            else System.out.println("수정에 실패하였습니다.");
 
             //사용된 객체 해제
             pstmt.close();
