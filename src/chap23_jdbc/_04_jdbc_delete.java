@@ -30,21 +30,18 @@ public class _04_jdbc_delete {
             //pstmt = conn.createStatement();
             //insert sql쿼리문
             String sql =
-                    "update STUDENT set " +
-                            "AVR = ? " +
-                            "WHERE SNO = ?";
+                    "delete FROM STUDENT WHERE SNO = ?";
 
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setDouble(1,1.45);
-            pstmt.setString(2,"8003");
+            pstmt.setString(1,"8003");
 
             //insert, delete, update는 결과로 영향받은 행의 개수를 리턴
             int result = pstmt.executeUpdate();
             if (result >= 1){
-                System.out.println("수정되었습니다.");
+                System.out.println("삭제되었습니다.");
             }
-            else System.out.println("수정에 실패하였습니다.");
+            else System.out.println("삭제가 실패하였습니다.");
 
             //사용된 객체 해제
             pstmt.close();
